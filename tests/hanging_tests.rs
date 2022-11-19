@@ -1,11 +1,11 @@
 mod fixtures;
 use fixtures::*;
-
 use rstest::*;
-use std::process::Child;
 
 #[rstest]
 #[test_log::test]
-fn should_run_successfully(_child: &'static Child) {
-    assert_eq!(1, 1);
+fn should_run_successfully(proc: &'static MyProcess) {
+    assert_eq!(proc.read_stdout_line(), "iter 0\n");
+    assert_eq!(proc.read_stdout_line(), "iter 1\n");
+    assert_eq!(proc.read_stdout_line(), "iter 2\n");
 }
