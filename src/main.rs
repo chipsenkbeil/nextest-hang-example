@@ -25,12 +25,12 @@ async fn main() {
 
 // Create a pipe to connect, print a message, and receive the response
 fn spawn_client(name: String, mut msg: String) -> tokio::task::JoinHandle<String> {
-    tokio::spawn(async {
+    tokio::spawn(async move {
         let addr = format!("\\\\.\\pipe\\{name}");
 
         // Continue to try to connect to the server while it is busy, failing on any other error
         let mut pipe = loop {
-            match ClientOptions::new().open(addr) {
+            match ClientOptions::new().open(&addr) {
                 Ok(client) => break client,
                 Err(e) if e.raw_os_error() == Some(ERROR_PIPE_BUSY as i32) => (),
                 Err(e) => panic!("{e}"),
