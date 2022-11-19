@@ -70,11 +70,18 @@ fn spawn_server(name: String) -> tokio::task::JoinHandle<()> {
 
         loop {
             // Wait for a new connection on the current server pipe
-            pipe.connect().await?;
+            pipe.connect()
+                .await
+                .expect("Failed to receive new connection");
 
             // Create a new server pipe to use for the next connection
             // as the current pipe is now taken with our existing connection
-            let mut pipe = std::mem::replace(&mut pipe, ServerOptions::new().create(&addr)?);
+            let mut pipe = std::mem::replace(
+                &mut pipe,
+                ServerOptions::new()
+                    .create(&addr)
+                    .expect("Failed to configure for a new connection"),
+            );
 
             // Spawn a new task to handle the pipe connected to our client that
             // merely echoes the data it receives back out to the client
