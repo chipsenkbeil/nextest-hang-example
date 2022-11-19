@@ -5,7 +5,7 @@ async fn main() {
     // Create a pipe to listen to on Windows
     let _pipe = ServerOptions::new()
         .first_pipe_instance(true)
-        .create(format!("test-pipe-{}", rand::random::<u16>()))
+        .create(format!("\\\\.\\pipe\\test-pipe-{}", rand::random::<u16>()))
         .expect("Failed to create windows pipe");
 
     let mut i = 0;
