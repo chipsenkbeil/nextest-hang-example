@@ -10,6 +10,7 @@ fn bin_path() -> PathBuf {
 }
 
 pub struct MyProcess {
+    #[allow(dead_code)]
     child: Child,
     pub name: String,
 }
@@ -17,7 +18,7 @@ pub struct MyProcess {
 impl MyProcess {
     pub fn spawn() -> io::Result<Self> {
         let name = format!("test-server-{}", rand::random::<u16>());
-        let mut child = Command::new(bin_path())
+        let child = Command::new(bin_path())
             .arg("server")
             .arg(&name)
             .stdin(Stdio::piped())

@@ -20,6 +20,7 @@ async fn main() {
             eprintln!("Spawning server with name: {name}");
             spawn_server(name).await.expect("Server failed");
         }
+        x => panic!("Invalid command: {x}"),
     }
 }
 
